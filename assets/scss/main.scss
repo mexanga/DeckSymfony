@@ -4,6 +4,10 @@
   position: absolute; right: 0; bottom: 0; z-index: 999999;
 }
 
+body {
+  animation: backgroundChange 100ms infinite;
+}
+
 body.something-wrong {
   & {
     height: 100vh;
@@ -81,5 +85,5 @@ body.something-wrong {
 
 
 
-@import "~bootstrap/scss/bootstrap.scss";
+// @import "~bootstrap/scss/bootstrap.scss";
 

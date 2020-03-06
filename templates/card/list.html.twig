@@ -1,16 +1,39 @@
-
 <div class="example-wrapper">
     <h1>
         Cards
-        <div class="btn btn-primary">Add</div>
+        <!--<a class="btn btn-primary" href="{{ path('card_create') }}">Add</a>-->
     </h1>
-    <ul>
-        {% for entity in entities %}
-            <li>{{ entity.name }}</li>
+
+    <h2>Library</h2>
+    <hr/>
+    {% for entity in entities %}
+        <!--<li>{{ entity.name }}</li>
             <li>{{ entity.image }}</li>
             <li>{{ entity.description }}</li>
             <li>{{ entity.life }}</li>
-            <li>{{ entity.attack }}</li>
-        {% endfor %}
-    </ul>
+            <li>{{ entity.attack }}</li>-->
+        <div class="card">
+            <div class="cardHeader">
+                <span><b>{{ entity.name }}</b> ({{ entity.category }})</span>
+                <span> </span>
+            </div>
+            <div class="cardImage" style="background-image: url("{{ app.request.attributes.get('_route') ~ entity.image }}")"></div>
+            <div class="cardFooter">
+                <div class="cardNumber text-primary">{{ entity.mana }}</div>
+                <div class="cardNumber text-danger">{{ entity.life }}</div>
+                <div class="cardNumber text-success">{{ entity.attack }}</div>
+            </div>
+            s
+            <div class="cardDescription text-center text-small mt-2">
+                <p>{{ entity.description }}</p>
+            </div>
+        </div>
+
+    {% endfor %}
+
+    <h2>Add a card</h2>
+    <hr/>
+    {{ form_start(form, {'action': path(app.request.attributes.get('_route')), 'method': 'POST' , 'encrypte': 'form-data' }) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 </div>

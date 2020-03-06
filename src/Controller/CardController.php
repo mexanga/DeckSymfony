@@ -6,6 +6,7 @@ use App\Entity\Card;
 use App\Form\CardType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -17,14 +18,40 @@ class CardController extends AbstractController
     /**
      * @Route("/", name="index", methods={"GET","HEAD"})
      */
-    public function index()
+    public function index(Request $request)
     {
         $manager = $this->getDoctrine()->getManager();
 
         $entities = $manager->getRepository(Card::class)->findAll();
 
+        $card = new Card;
+        $formCard = $this->createForm(CardType::class, $card,
+            [
+                'action' => $this->generateUrl('card_create')
+            ]
+        );
+
+        $formCard->handleRequest($request);
+        if ($formCard->isSubmitted() && $formCard->isValid()) {
+
+            $card->addUser($this->getUser());
+            $image = $formCard->get('image')->getData();
+            $imageName = 'card-'.uniqid().'.'.$image->guessExtension();
+
+            $image->move(
+                $this->getParameter('cards_folder'),
+                $imageName
+            );
+
+            $card->setImage($imageName);
+
+            $manager->persist($card);
+            $manager->flush();
+        }
+
         return $this->render('card/list.html.twig', [
             'entities' => $entities,
+            'form' => $formCard->createView(),
             'controller_name' => 'CardController',
         ]);
     }
@@ -33,7 +60,7 @@ class CardController extends AbstractController
      * @Route("/create", name="create", methods={"GET","HEAD"})
      */
     /**
-     * @Route("/create", name="create")
+     * @Route("/create", name="create", methods={"POST", "PUT"})
      */
     public function create(Request $request)
     {
@@ -70,9 +97,7 @@ class CardController extends AbstractController
         /*dd($cards);
         die();*/
 
-        return $this->render('card/form.html.twig', [
-            'form' => $formCard->createView()
-        ]);
+        return new Response('OK', 200, []);
     }
 
 

@@ -2,8 +2,10 @@
 <div class="example-wrapper">
     <h1>
         Categories
-        <div class="btn btn-primary">Add</div>
+        <!--<div class="btn btn-primary">Add</div>-->
     </h1>
+    <h2>Library</h2>
+    <hr />
     <ul>
         {% for entity in entities %}
             <li>{{ entity.name }}</li>
@@ -13,4 +15,10 @@
             <li>{{ entity.attack }}</li>
         {% endfor %}
     </ul>
+
+    <h2>Add a category</h2>
+    <hr />
+    {{ form_start(form, {'action': path(app.request.attributes.get('_route')), 'method': 'POST' , 'encrypte': 'form-data' }) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 </div>
