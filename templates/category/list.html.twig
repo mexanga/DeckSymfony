@@ -1,0 +1,16 @@
+
+<div class="example-wrapper">
+    <h1>
+        Categories
+        <div class="btn btn-primary">Add</div>
+    </h1>
+    <ul>
+        {% for entity in entities %}
+            <li>{{ entity.name }}</li>
+            <li>{{ entity.image }}</li>
+            <li>{{ entity.description }}</li>
+            <li>{{ entity.life }}</li>
+            <li>{{ entity.attack }}</li>
+        {% endfor %}
+    </ul>
+</div>

@@ -1,0 +1,85 @@
+@import "~bootstrap/scss/bootstrap.scss";
+
+.something-wrong__wrapper {
+  position: absolute; right: 0; bottom: 0; z-index: 999999;
+}
+
+body.something-wrong {
+  & {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    animation: backgroundChange 100ms infinite;
+  }
+
+  div {
+    animation: autoRotate 3s infinite;
+  }
+
+  form div {
+    animation: autoSkew 20s infinite;
+  }
+}
+
+@keyframes backgroundChange {
+
+  0% {
+    color: greenyellow!important;
+    background: red!important;
+  }
+
+  25% {
+    color: black!important;
+    background: white!important;
+  }
+
+  50% {
+    color: orange!important;
+    background: blue!important;
+  }
+
+  75% {
+    color: white!important;
+    background: black!important;
+  }
+
+  100% {
+    color: darkblue!important;
+    background: yellow!important;
+  }
+}
+
+
+
+@keyframes autoSkew {
+  0% {
+    transform: skew(0deg);
+  }
+
+  50% {
+    transform: skew(360deg);
+  }
+
+  100% {
+    transform: skew(-360deg);
+  }
+}
+
+@keyframes autoRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(360deg);
+  }
+
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+
+
+@import "~bootstrap/scss/bootstrap.scss";
+
