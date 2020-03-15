@@ -8,7 +8,9 @@
     {% endblock %}
 </head>
 <body>
-{% include 'navbar.html.twig' %}
+<div id="navbar-holder">
+    {% include 'navbar.html.twig' %}
+</div>
 <div class="container mt-3">
     {% block body %}{% endblock %}
     <div class="page" id="page"></div>
@@ -20,87 +22,151 @@
     <script>
         (function onLoad(scope) {
 
-            const navbar = scope.querySelector('.navbar');
-            if (undefined !== navbar) {
-                const links = navbar.querySelectorAll('a[href]');
-                if (0 < links.length) {
-                    links.forEach(function (link) {
-                        link.addEventListener('click', function (event) {
-                            event.preventDefault();
-                            const {target} = event;
-
-                            // Definition active
-                            const newLinks = Array.prototype.filter.call(links, _link => link !== _link);
-                            target.classList.add('active');
-                            newLinks.forEach(function (_link) {
-                                _link.classList.remove('active');
-                            });
-
-                            // Chargement page
-                            const wrapper = scope.querySelector('.page');
-                            const linkUrl = link.href;
-
-                            const loading = document.createElement('div');
-                            loading.classList.add(
-                                'loading__wrapper', 'd-flex', 'justify-content-center', 'align-content-center',
-                                'w-100', 'h-100'
-                            );
-                            loading.style.zIndex = '999999';
-                            loading.style.backgroundColor = '#000b';
-                            loading.style.position = 'absolute';
-                            loading.style.top = 0;
-                            loading.style.left = 0;
-                            loading.innerHTML =
-                                '<div class="spinner-border text-light align-self-center justify-self-center" ' +
-                                'role="status"> ' +
-                                '<span class="sr-only">Loading...</span>' +
-                                '</div>';
-
-                            wrapper.appendChild(loading);
-
-                            fetch(linkUrl, {
-                                type: 'GET'
-                            }).then(function (response) {
-                                return response.text();
-                            }).then(function (response) {
-                                const hasResponseNavbar = -1 !== response.search('navbar');
-                                if (false === hasResponseNavbar) {
-                                    wrapper.innerHTML = response;
+            /*const navbarHolder = document.getElementById('navbar-holder');
+            const currentLinkActive = navbarHolder.querySelector('.active') || navbarHolder.querySelector('.navbar-brand');
+            // console.log({linkActive});
+            const page = document.getElementById('page');
+            const navbarUrl = '{{ path('navbar') }}';
+            const config = {attributes: false, childList: true, subtree: false};
+            const callback = function (mutationsList, observer) {
+                for (let mutation of mutationsList) {
+                    if (mutation.type === 'childList') {
+                        fetch(navbarUrl, {
+                            method: 'GET'
+                        }).then(function (response) {
+                            return response.text();
+                        }).then(function (response) {
+                            navbarHolder.innerHTML = response;
+                            updateLinksForOnepage();
+                            /!*for (let link of links) {
+                                const hasSameHref = currentLinkActive.href === link.href;
+                                link.classList.remove('active'); // Au cas où
+                                if (true === hasSameHref) {
+                                    link.classList.add('active');
                                 }
-                                else {
-                                    document.body.outerHTML = response;
-                                    onLoad(document);
-                                }
-                                return response;
-                            }).then(function (response) {
-                                const forms = scope.querySelectorAll('form');
-                                if (0 < forms.length) {
-                                    forms.forEach(function (form) {
-                                        const submit = form.querySelector('[type="submit"]');
-                                        submit.addEventListener('click', function (event) {
-                                            event.preventDefault();
-                                            const _form = $(form);
-                                            $.ajax({
-                                                type: "POST",
-                                                url: form.action,
-                                                data: new FormData(form),
-                                                contentType: false,
-                                                processData: false,
-                                                success: function success(response) {
-                                                    const eventForm = event.target.closest('form');
-                                                    const {action} = eventForm;
-                                                    if ('{{path('app_register')}}' === action || '{{path('app_login')}}' === action) {
-                                                        $('nav.navbar').load('{{ path('navbar') }}');
+                            }*!/
+                        }).catch(function (response) {
+                            console.error(response);
+                        });
+                    }
+                }
+            };
+            const observer = new MutationObserver(callback);
+            observer.observe(page, config);*/
+
+            updateLinksForOnepage();
+
+            function updateLinksForOnepage() {
+                const navbar = scope.querySelector('.navbar');
+                if (undefined !== navbar) {
+                    const links = navbar.querySelectorAll('a[href]');
+                    if (0 < links.length) {
+                        links.forEach(function (link) {
+                            link.addEventListener('click', function (event) {
+                                event.preventDefault();
+                                const {target} = event;
+
+                                // Definition active
+                                const newLinks = Array.prototype.filter.call(links, _link => link !== _link);
+                                target.classList.add('active');
+                                newLinks.forEach(function (_link) {
+                                    _link.classList.remove('active');
+                                });
+
+                                // Chargement page
+                                const wrapper = scope.querySelector('.page');
+                                const linkUrl = link.href;
+
+                                const loading = document.createElement('div');
+                                loading.classList.add(
+                                    'loading__wrapper', 'd-flex', 'justify-content-center', 'align-content-center',
+                                    'w-100', 'h-100'
+                                );
+                                loading.style.zIndex = '999999';
+                                loading.style.backgroundColor = '#000b';
+                                loading.style.position = 'absolute';
+                                loading.style.top = 0;
+                                loading.style.left = 0;
+                                loading.innerHTML =
+                                    '<div class="spinner-border text-light align-self-center justify-self-center" ' +
+                                    'role="status"> ' +
+                                    '<span class="sr-only">Loading...</span>' +
+                                    '</div>';
+
+                                wrapper.appendChild(loading);
+
+                                fetch(linkUrl, {
+                                    type: 'GET'
+                                }).then(function (response) {
+                                    return response.text();
+                                }).then(function (response) {
+                                    const hasResponseNavbar = -1 !== response.search('navbar');
+                                    if (false === hasResponseNavbar) {
+                                        wrapper.innerHTML = response;
+                                    } else {
+                                        document.body.outerHTML = response;
+                                        onLoad(document);
+                                    }
+
+                                    const currentLinkActive = document.querySelector('.navbar a[href].active');
+
+                                    /*fetch(navbarUrl, {
+                                        method: 'GET'
+                                    }).then(function (response) {
+                                        return response.text();
+                                    }).then(function (response) {
+                                        navbarHolder.innerHTML = response;
+                                        /!*for (let link of links) {
+                                            const hasSameHref = currentLinkActive.href === link.href;
+                                            link.classList.remove('active'); // Au cas où
+                                            if (true === hasSameHref) {
+                                                link.classList.add('active');
+                                            }
+                                        }*!/
+                                    }).then(function (response) {
+                                        console.log({response, currentLinkActive});
+                                        for (let link of links) {
+                                            const hasSameHref = currentLinkActive.href === link.href;
+                                            link.classList.remove('active'); // Au cas où
+                                            if (true === hasSameHref) {
+                                                link.classList.add('active');
+                                            }
+                                        }
+                                        updateLinksForOnepage();
+                                    }).catch(function (response) {
+                                        console.error(response);
+                                    });*/
+
+                                    return response;
+                                }).then(function (response) {
+                                    const forms = scope.querySelectorAll('form');
+                                    if (0 < forms.length) {
+                                        forms.forEach(function (form) {
+                                            const submit = form.querySelector('[type="submit"]');
+                                            submit.addEventListener('click', function (event) {
+                                                event.preventDefault();
+                                                const _form = $(form);
+                                                $.ajax({
+                                                    type: "POST",
+                                                    url: form.action,
+                                                    data: new FormData(form),
+                                                    contentType: false,
+                                                    processData: false,
+                                                    success: function success(response) {
+                                                        const eventForm = event.target.closest('form');
+                                                        const {action} = eventForm;
+                                                        if ('{{ path('app_register') }}' === action || '{{ path('app_login') }}' === action) {
+                                                            $('nav.navbar').load('{{ path('navbar') }}');
+                                                        }
+                                                        $('#page').load($('.active').attr('href'));
                                                     }
-                                                    $('#page').load($('.navbar-brand').attr('href'));
-                                                }
+                                                });
                                             });
                                         });
-                                    });
-                                }
-                            });
-                        })
-                    });/*
+                                    }
+                                });
+                            })
+                        });/*
                     $.ajax({
                         type: 'POST',
                         url: form.attr('action'),
@@ -113,8 +179,11 @@
                             console.log('oh no !');
                         }
                     });*/
+                    }
                 }
             }
+
+//            observer.disconnect();
         })(document);
     </script>
 {% endblock %}
