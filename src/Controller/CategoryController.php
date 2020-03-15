@@ -26,12 +26,11 @@ class CategoryController extends AbstractController
         $category = new Category;
         $formCategory = $this->createForm(CategoryType::class, $category,
             [
-//                'action' => $this->generateUrl('category_create')
-                'action' => '/'
+                'action' => $this->generateUrl('category_create')
             ]
         );
 
-        $categories = $manager->getRepository(Category::class)->findAll();
+        $entities = $manager->getRepository(Category::class)->findAll();
 
         return $this->render('category/list.html.twig', [
             'entities' => $entities,
@@ -50,7 +49,14 @@ class CategoryController extends AbstractController
     public function create(Request $request)
     {
 
-        dd($request->request);
+        $name = $request->get('category')['name'];
+
+        $category = new Category;
+        $category->setName($name);
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($category);
+        $manager->flush();
 
         return new Response('OK', 200, []);
 
