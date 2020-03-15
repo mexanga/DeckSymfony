@@ -17,6 +17,7 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -36,7 +37,7 @@ class RegistrationController extends AbstractController
 
             // do anything else you need here, like send an email
 
-            // return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('dashboard');
         }
 
         return $this->render('registration/register.html.twig', [

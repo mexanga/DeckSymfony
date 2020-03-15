@@ -15,8 +15,7 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return 0;
-            // return $this->redirectToRoute('dashboard');
+            return $this->render('dashboard/dashboard.html.twig');
         }
 
         // get the login error if there is one

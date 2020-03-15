@@ -1,1 +1,8 @@
-{% extends 'base.html.twig' %}
+
+{% if false != with_layout %}
+    {% extends 'base.html.twig' %}
+{% endif %}
+
+{% block body %}
+    {% include 'dashboard/dashboard.html.twig' %}
+{% endblock %}

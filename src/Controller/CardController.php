@@ -76,7 +76,7 @@ class CardController extends AbstractController
         $cards = $manager->getRepository(Card::class)->findAll();
 
 
-        $formCard->handleRequest($request);
+        /*$formCard->handleRequest($request);
         if ($formCard->isSubmitted() && $formCard->isValid()) {
 
             $card->addUser($this->getUser());
@@ -92,7 +92,7 @@ class CardController extends AbstractController
 
             $manager->persist($card);
             $manager->flush();
-        }
+        }*/
 
         /*dd($cards);
         die();*/

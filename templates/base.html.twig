@@ -12,8 +12,9 @@
     {% include 'navbar.html.twig' %}
 </div>
 <div class="container mt-3">
+    <div class="page" id="page">
     {% block body %}{% endblock %}
-    <div class="page" id="page"></div>
+    </div>
     <div class="subpage"></div>
 </div>
 {% block javascripts %}
@@ -22,42 +23,46 @@
     <script>
         (function onLoad(scope) {
 
-            /*const navbarHolder = document.getElementById('navbar-holder');
-            const currentLinkActive = navbarHolder.querySelector('.active') || navbarHolder.querySelector('.navbar-brand');
-            // console.log({linkActive});
-            const page = document.getElementById('page');
-            const navbarUrl = '{{ path('navbar') }}';
-            const config = {attributes: false, childList: true, subtree: false};
-            const callback = function (mutationsList, observer) {
-                for (let mutation of mutationsList) {
-                    if (mutation.type === 'childList') {
-                        fetch(navbarUrl, {
-                            method: 'GET'
-                        }).then(function (response) {
-                            return response.text();
-                        }).then(function (response) {
-                            navbarHolder.innerHTML = response;
-                            updateLinksForOnepage();
-                            /!*for (let link of links) {
-                                const hasSameHref = currentLinkActive.href === link.href;
-                                link.classList.remove('active'); // Au cas où
-                                if (true === hasSameHref) {
-                                    link.classList.add('active');
-                                }
-                            }*!/
-                        }).catch(function (response) {
-                            console.error(response);
-                        });
-                    }
-                }
-            };
-            const observer = new MutationObserver(callback);
-            observer.observe(page, config);*/
-
             updateLinksForOnepage();
 
+            function updateFormsForOnepage() {
+                const forms = scope.querySelectorAll('form');
+                if (0 < forms.length) {
+                    forms.forEach(function (form) {
+                        const submit = form.querySelector('[type="submit"]');
+                        submit.addEventListener('click', function (event) {
+                            event.preventDefault();
+                            const _form = $(form);
+                            $.ajax({
+                                type: "POST",
+                                url: form.action,
+                                data: new FormData(form),
+                                contentType: false,
+                                processData: false,
+                                success: function success(response) {
+                                    const eventForm = event.target.closest('form');
+                                    const {action} = eventForm;
+                                    const parsedAction = /[^/]*$/.exec(action)[0];
+                                    if ('{{ path('app_register') }}'.substring(1) === parsedAction || '{{ path('app_login') }}'.substring(1) === parsedAction) {
+                                        $('#navbar-holder').load('{{ path('navbar') }}', null, function () {
+                                            updateLinksForOnepage();
+                                        });
+                                        $('#page').load('{{ path('_dashboard') }}');
+                                    } else {
+                                        $('#page').load($('.active').attr('href'));
+                                    }
+                                }
+                            });
+                            return false;
+                        });
+                    });
+                }
+            }
+
             function updateLinksForOnepage() {
+                console.log('updated links !');
                 const navbar = scope.querySelector('.navbar');
+                navbar.style.background = 'red';
                 if (undefined !== navbar) {
                     const links = navbar.querySelectorAll('a[href]');
                     if (0 < links.length) {
@@ -107,78 +112,13 @@
                                         document.body.outerHTML = response;
                                         onLoad(document);
                                     }
-
-                                    const currentLinkActive = document.querySelector('.navbar a[href].active');
-
-                                    /*fetch(navbarUrl, {
-                                        method: 'GET'
-                                    }).then(function (response) {
-                                        return response.text();
-                                    }).then(function (response) {
-                                        navbarHolder.innerHTML = response;
-                                        /!*for (let link of links) {
-                                            const hasSameHref = currentLinkActive.href === link.href;
-                                            link.classList.remove('active'); // Au cas où
-                                            if (true === hasSameHref) {
-                                                link.classList.add('active');
-                                            }
-                                        }*!/
-                                    }).then(function (response) {
-                                        console.log({response, currentLinkActive});
-                                        for (let link of links) {
-                                            const hasSameHref = currentLinkActive.href === link.href;
-                                            link.classList.remove('active'); // Au cas où
-                                            if (true === hasSameHref) {
-                                                link.classList.add('active');
-                                            }
-                                        }
-                                        updateLinksForOnepage();
-                                    }).catch(function (response) {
-                                        console.error(response);
-                                    });*/
-
                                     return response;
                                 }).then(function (response) {
-                                    const forms = scope.querySelectorAll('form');
-                                    if (0 < forms.length) {
-                                        forms.forEach(function (form) {
-                                            const submit = form.querySelector('[type="submit"]');
-                                            submit.addEventListener('click', function (event) {
-                                                event.preventDefault();
-                                                const _form = $(form);
-                                                $.ajax({
-                                                    type: "POST",
-                                                    url: form.action,
-                                                    data: new FormData(form),
-                                                    contentType: false,
-                                                    processData: false,
-                                                    success: function success(response) {
-                                                        const eventForm = event.target.closest('form');
-                                                        const {action} = eventForm;
-                                                        if ('{{ path('app_register') }}' === action || '{{ path('app_login') }}' === action) {
-                                                            $('nav.navbar').load('{{ path('navbar') }}');
-                                                        }
-                                                        $('#page').load($('.active').attr('href'));
-                                                    }
-                                                });
-                                            });
-                                        });
-                                    }
+                                    updateFormsForOnepage();
                                 });
+                                return false;
                             })
-                        });/*
-                    $.ajax({
-                        type: 'POST',
-                        url: form.attr('action'),
-                        action: app.request.attr('action'),
-                        data: form.serialize(),
-                        success: function (success) {
-                            console.log('hey !');
-                        },
-                        error: function (error) {
-                            console.log('oh no !');
-                        }
-                    });*/
+                        });
                     }
                 }
             }

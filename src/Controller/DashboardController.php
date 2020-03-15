@@ -14,7 +14,7 @@ class DashboardController extends AbstractController
     public function index()
     {
         return $this->render('dashboard/index.html.twig', [
-            'controller_name' => 'DashboardController',
+            'controller_name' => 'DashboardController'
         ]);
     }
 
@@ -24,5 +24,13 @@ class DashboardController extends AbstractController
     public function navbar(UserAuthenticator $userAuthenticator)
     {
         return $this->render('navbar.html.twig');
+    }
+
+    /**
+     * @Route("/_dashboard", name="_dashboard")
+     */
+    public function dashboard()
+    {
+        return $this->render('dashboard/dashboard.html.twig');
     }
 }
