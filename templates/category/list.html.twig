@@ -9,16 +9,12 @@
     <ul>
         {% for entity in entities %}
             <li>{{ entity.name }}</li>
-            <li>{{ entity.image }}</li>
-            <li>{{ entity.description }}</li>
-            <li>{{ entity.life }}</li>
-            <li>{{ entity.attack }}</li>
         {% endfor %}
     </ul>
 
     <h2>Add a category</h2>
     <hr />
-    {{ form_start(form, {'action': path(app.request.attributes.get('_route')), 'method': 'POST' , 'encrypte': 'form-data' }) }}
+    {{ form_start(form, {'action': path(app.request.attributes.get('_route')) ~ "create", 'method': 'POST' , 'encrypte': 'form-data' }) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}
 </div>
