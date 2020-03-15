@@ -11,7 +11,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>{{ form(form) }}</p>
+                    <p>
+                        {{ form_start(form, {"action": path(app.request.attributes.get('_route')), "method": "POST", "multipart": "true"}) }}
+                        {{ form_row(form.name) }}
+                        {{ form_end(form) }}
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
