@@ -3,6 +3,9 @@
 {% block page %}
 <div class="example-wrapper">
     <h2>Add a card</h2>
-    {{ form(form) }}
+    <hr/>
+    {{ form_start(form, {'action': path(app.request.attributes.get('_route')), 'method': 'POST' , 'encrypte': 'form-data' }) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 </div>
 {% endblock %}

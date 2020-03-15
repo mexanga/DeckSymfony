@@ -16,7 +16,7 @@ class CardController extends AbstractController
 {
 
     /**
-     * @Route("/", name="index", methods={"GET","HEAD"})
+     * @Route("/", name="index")
      */
     public function index(Request $request)
     {

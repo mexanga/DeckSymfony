@@ -14,7 +14,7 @@
             <li>{{ entity.attack }}</li>-->
         <div class="card">
             <div class="cardHeader">
-                <span><b>{{ entity.name }}</b> ({{ entity.category }})</span>
+                <span><b>{{ entity.name }}</b> ({{ entity.category.name }})</span>
                 <span> </span>
             </div>
             <div class="cardImage" style="background-image: url("{{ app.request.attributes.get('_route') ~ entity.image }}")"></div>

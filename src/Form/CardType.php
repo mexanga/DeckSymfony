@@ -19,6 +19,7 @@ class CardType extends AbstractType
             ->add('name')
             ->add('description')
             ->add('image', FileType::class, [])
+            ->add('mana')
             ->add('life')
             ->add('attack')
             ->add('category', EntityType::class, [

@@ -36,6 +36,11 @@ class Card
     /**
      * @ORM\Column(type="integer")
      */
+    private $mana;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
     private $life;
 
     /**
@@ -96,6 +101,18 @@ class Card
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getMana(): ?int
+    {
+        return $this->mana;
+    }
+
+    public function setMana(int $mana): self
+    {
+        $this->mana = $mana;
 
         return $this;
     }

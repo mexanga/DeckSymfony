@@ -59,6 +59,7 @@ class CategoryController extends AbstractController
         $manager->flush();
 
         return new Response('OK', 200, []);
+        // return $this->index($request);
 
 
 
