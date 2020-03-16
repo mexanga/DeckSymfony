@@ -22,6 +22,7 @@ class CardType extends AbstractType
             ->add('mana')
             ->add('life')
             ->add('attack')
+            ->add('quote')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name'

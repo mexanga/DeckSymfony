@@ -28,6 +28,21 @@ class Category
      */
     private $cards;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $icon;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $card_background;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $card_color;
+
     public function __construct()
     {
         $this->cards = new ArrayCollection();
@@ -77,6 +92,42 @@ class Category
                 $card->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIcon(): ?string
+    {
+        return $this->icon;
+    }
+
+    public function setIcon(?string $icon): self
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    public function getCardBackground(): ?string
+    {
+        return $this->card_background;
+    }
+
+    public function setCardBackground(string $card_background): self
+    {
+        $this->card_background = $card_background;
+
+        return $this;
+    }
+
+    public function getCardColor(): ?string
+    {
+        return $this->card_color;
+    }
+
+    public function setCardColor(string $card_color): self
+    {
+        $this->card_color = $card_color;
 
         return $this;
     }

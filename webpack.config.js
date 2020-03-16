@@ -7,7 +7,7 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 }
 
 Encore
-// directory where compiled assets will be stored
+    // directory where compiled assets will be stored
     .setOutputPath('public/build/')
     // public path used by the web server to access the output path
     .setPublicPath('/build')
@@ -24,6 +24,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/js/app.js')
+    .addEntry('icons', './assets/js/_icons.js')
     .addEntry('jquery', './node_modules/jquery/dist/jquery.min.js')
     // .addEntry('bootstrap_styles', './node_modules/bootstrap/scss/bootstrap.scss')
     //.addEntry('page1', './assets/js/page1.js')
@@ -55,8 +56,13 @@ Encore
         config.corejs = 3;
     })
 
-// enables Sass/SCSS support
-.enableSassLoader()
+    // enables Sass/SCSS support
+    .enableSassLoader()
+
+    .copyFiles({
+        from: './assets/img',
+        to: 'images/[path][name].[ext]'
+    })
 
 // uncomment if you use TypeScript
 //.enableTypeScriptLoader()
@@ -73,4 +79,6 @@ Encore
 //.addEntry('admin', './assets/js/admin.js')
 ;
 
-module.exports = Encore.getWebpackConfig();
+const config = Encore.getWebpackConfig();
+config.node = {fs: 'empty'};
+module.exports = config;

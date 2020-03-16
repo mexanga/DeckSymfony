@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/card", name="card_")
@@ -18,7 +19,7 @@ class CardController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(Request $request)
+    public function index(Request $request, Security $security)
     {
         $manager = $this->getDoctrine()->getManager();
 
@@ -34,6 +35,7 @@ class CardController extends AbstractController
         $formCard->handleRequest($request);
         if ($formCard->isSubmitted() && $formCard->isValid()) {
 
+            $card->setCreator($this->getUser());
             $card->addUser($this->getUser());
             $image = $formCard->get('image')->getData();
             $imageName = 'card-'.uniqid().'.'.$image->guessExtension();
@@ -49,7 +51,14 @@ class CardController extends AbstractController
             $manager->flush();
         }
 
+        /*$cards = [];
+        foreach ($entities as $entity) {
+            $cards[] = $this->renderView('card/card.html.twig', [
+                'card' => $entity
+            ]);
+        }*/
         return $this->render('card/list.html.twig', [
+            // 'userId' => $userId,
             'entities' => $entities,
             'form' => $formCard->createView(),
             'controller_name' => 'CardController',
@@ -140,6 +149,17 @@ class CardController extends AbstractController
     public function delete()
     {
         return $this->render('card/index.html.twig', [
+            'controller_name' => 'CardController',
+        ]);
+    }
+
+
+    /**
+     * @Route("/_card", name="carde")
+     */
+    public function card()
+    {
+        return $this->render('card/card.html.twig', [
             'controller_name' => 'CardController',
         ]);
     }

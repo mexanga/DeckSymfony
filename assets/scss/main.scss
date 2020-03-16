@@ -1,5 +1,10 @@
 @import "~bootstrap/scss/bootstrap.scss";
 
+@import "card";
+@import "cards_grid";
+@import "card_background";
+@import "icons";
+
 .something-wrong__wrapper {
   position: absolute; right: 0; bottom: 0; z-index: 999999;
 }

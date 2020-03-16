@@ -1,0 +1,47 @@
+
+.grid-background-wrapper {
+  display: flex;
+  flex-direction: row;
+
+  .grid-backgrounds {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background: whitesmoke;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    .item {
+      padding: 2rem;
+      cursor: pointer;
+
+      &:not(:first-of-type) {
+        margin-left: 1rem;
+      }
+
+      &:hover {
+        background: gray;
+      }
+
+      &.active {
+        background: $primary;
+      }
+      &:not(.active) {
+        background: whitesmoke;
+      }
+    }
+
+    .grid-backgrounds__card-background {
+      width: 200px;
+      height: calc(200px * (7/5));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+  }
+
+}

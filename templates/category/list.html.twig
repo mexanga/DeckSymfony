@@ -1,20 +1,99 @@
+{% block body %}
+    <div class="example-wrapper">
+        <h1>
+            Categories
+            <!--<div class="btn btn-primary">Add</div>-->
+        </h1>
+        <h2>Library</h2>
+        <hr/>
+        <ul>
+            {% for entity in entities %}
+                <li>{{ entity.name }}</li>
+            {% endfor %}
+        </ul>
 
-<div class="example-wrapper">
-    <h1>
-        Categories
-        <!--<div class="btn btn-primary">Add</div>-->
-    </h1>
-    <h2>Library</h2>
-    <hr />
-    <ul>
-        {% for entity in entities %}
-            <li>{{ entity.name }}</li>
-        {% endfor %}
-    </ul>
-
-    <h2>Add a category</h2>
-    <hr />
-    {{ form_start(form, {'action': path(app.request.attributes.get('_route')) ~ "create", 'method': 'POST' , 'encrypte': 'form-data' }) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
-</div>
+        <h2>Add a category</h2>
+        <hr/>
+        {{ form_start(form, {'action': path(app.request.attributes.get('_route')) ~ "create", 'method': 'POST' , 'encrypte': 'form-data' }) }}
+        {{ form_row(form.name) }}
+        <input type="hidden" name="category[icon]" id="category_icon">
+        <div class="grid-icons-wrapper">
+            <div class="grid-icons-wrapper__template">
+                <div class="grid-icons-wrapper__template__type">
+                    <div class="btn-group" role="group" aria-label="Type of card">
+                        <button type="button" class="btn btn-secondary active" onclick="toggleActiveTypeCard(this)"
+                                data-type-card="common">Common
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="toggleActiveTypeCard(this)"
+                                data-type-card="uncommon">Uncommon
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="toggleActiveTypeCard(this)"
+                                data-type-card="rare">Rare
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="toggleActiveTypeCard(this)"
+                                data-type-card="mythic">Mythic
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="toggleActiveTypeCard(this)"
+                                data-type-card="foil">Foil
+                        </button>
+                    </div>
+                </div>
+                <div class="grid-icons-wrapper__template__gradient">
+                    <div class="btn-group" role="group" aria-label="Third group">
+                        <button type="button" class="btn btn-secondary" onclick="toggleActiveGradient(this)">Gradient
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-icons">
+                {% for iconLabel,iconName in icons %}
+                    <div class="icon{{ iconLabel == 'lea' ? ' active' : '' }}" data-toggle="tooltip" data-placement="top" title="{{ iconName }}"
+                         onclick="toggleActiveIcon(this)"
+                         data-icon="{{ iconLabel }}">
+                        <i class="ss ss-{{ iconLabel }}"></i>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <input type="hidden" name="category[card_background]" id="category_card_background">
+        <input type="hidden" name="category[card_color]" id="category_card_color">
+        <div class="grid-background-wrapper">
+            <div class="grid-backgrounds">
+                <div class="item active" onclick="toggleActiveCardBackground(this)"
+                     data-card-color="red" data-card-background="red_background.png" data-toggle="tooltip" data-placement="top"
+                     title="Red">
+                    <div class="grid-backgrounds__card-background"
+                         style="background-image:url({{ asset('build/images/card/red_background.png') }})">
+                        &nbsp;
+                    </div>
+                </div>
+                <div class="item" onclick="toggleActiveCardBackground(this)" data-card-background="green_background.jpg"
+                     data-card-color="green" data-toggle="tooltip" data-placement="top"
+                     title="Green">
+                    <div class="grid-backgrounds__card-background" data-toggle="tooltip" data-placement="top"
+                         title="Green"
+                         style="background-image:url({{ asset('build/images/card/green_background.jpg') }})">
+                        &nbsp;
+                    </div>
+                </div>
+                <div class="item" onclick="toggleActiveCardBackground(this)" data-card-background="blue_background.png"
+                     data-card-color="blue" data-toggle="tooltip" data-placement="top"
+                     title="Blue">
+                    <div class="grid-backgrounds__card-background"
+                         style="background-image:url({{ asset('build/images/card/blue_background.png') }})">
+                        &nbsp;
+                    </div>
+                </div>
+                <div class="item" onclick="toggleActiveCardBackground(this)" data-card-background="gray_background.png"
+                     data-card-color="gray" data-toggle="tooltip" data-placement="top"
+                     title="Gray">
+                    <div class="grid-backgrounds__card-background"
+                         style="background-image:url({{ asset('build/images/card/gray_background.png') }})">
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

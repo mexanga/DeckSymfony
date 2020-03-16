@@ -1,0 +1,39 @@
+.grid-icons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background: whitesmoke;
+  justify-content: space-between;
+  align-items: center;
+
+  .icon {
+    width: 35px;
+    height: 35px;
+    padding: .75rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      background: rgba(0,0,0,.15);
+    }
+
+    &.active {
+      background: rgba(0,0,0,.2);
+    }
+  }
+}
+
+.grid-icons-wrapper {
+
+  &__template {
+    display: flex;
+    flex-direction: row;
+
+    div:not(:first-of-type) {
+      margin-left: 1rem;
+    }
+  }
+
+}

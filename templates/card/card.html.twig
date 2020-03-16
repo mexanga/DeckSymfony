@@ -1,0 +1,49 @@
+<div class="card-container">
+
+    <div class="card-background"
+         style="background-image:url({{ asset('build/images/card/' ~ card.category.cardBackground) }})">
+
+        <div class="card-frame">
+
+            <div class="frame-header"
+                 style="box-shadow:0 0 0 2px #171314, 0 0 0 5px {{ card.category.cardColor }}, -3px 3px 2px 5px #171314">
+                <h1 class="name">{{ card.name }}</h1>
+            </div>
+
+            <div class="frame-art"
+                 style="background-image:url({{ asset('uploads/cards/' ~ card.image) }});box-shadow:0 0 0 2px #171314, 0 0 0 5px {{ card.category.cardColor }}, -3px 3px 2px 5px #171314"></div>
+
+            <div class="frame-type-line" style="box-shadow:0 0 0 2px #171314, 0 0 0 5px {{ card.category.cardColor }}, -3px 3px 2px 5px #171314">
+                <h1 class="type">{{ card.category.name }}</h1>
+                <div id="set-icon"><i class="ss ss-{{ card.category.icon }}"></i></div>
+            </div>
+
+            <div class="frame-text-box" style="box-shadow:0 0 0 5px {{ card.category.cardColor }}, -3px 3px 2px 5px #171314">
+                <p class="description ftb-inner-margin">{{ card.description }}
+                </p>
+                <p class="description">
+                </p>
+                <p class="flavour-text">
+                    {% if '' != card.quote %}
+                    "{{ card.quote }}"
+                    {% endif %}
+                </p>
+            </div>
+
+            <div class="frame-bottom-info inner-margin">
+
+                <div class="fbi-center card-life">{{ card.life }}</div>
+                <div class="fbi-center card-attack">{{ card.attack }}</div>
+                <div class="fbi-center card-mana">{{ card.mana }}</div>
+
+                <div class="fbi-right">
+                    &#169; {{ card.creator.username }}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+

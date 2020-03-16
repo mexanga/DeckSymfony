@@ -24,6 +24,7 @@
         (function onLoad(scope) {
 
             updateLinksForOnepage();
+            updateTooltipsForOnepage();
 
             function updateFormsForOnepage() {
                 const forms = scope.querySelectorAll('form');
@@ -49,7 +50,10 @@
                                         });
                                         $('#page').load('{{ path('_dashboard') }}');
                                     } else {
-                                        $('#page').load($('.active').attr('href'));
+                                        $('#page').load($('.active').attr('href'), null, function () {
+                                            updateLinksForOnepage();
+                                            updateFormsForOnepage();
+                                        });
                                     }
                                 }
                             });
@@ -115,12 +119,19 @@
                                     return response;
                                 }).then(function (response) {
                                     updateFormsForOnepage();
+                                    updateTooltipsForOnepage();
                                 });
                                 return false;
                             })
                         });
                     }
                 }
+            }
+
+            function updateTooltipsForOnepage() {
+                /*$(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                })*/
             }
 
 //            observer.disconnect();
