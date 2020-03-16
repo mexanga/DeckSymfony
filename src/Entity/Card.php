@@ -49,11 +49,6 @@ class Card
     private $attack;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="cards")
-     */
-    private $users;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="cards")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -69,11 +64,6 @@ class Card
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $quote;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Deck", mappedBy="cards")
-     */
-    private $decks;
 
     public function __construct()
     {
@@ -158,32 +148,6 @@ class Card
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-        }
-
-        return $this;
-    }
-
     public function getCategory(): ?Category
     {
         return $this->category;
@@ -220,31 +184,4 @@ class Card
         return $this;
     }
 
-    /**
-     * @return Collection|Deck[]
-     */
-    public function getDecks(): Collection
-    {
-        return $this->decks;
-    }
-
-    public function addDeck(Deck $deck): self
-    {
-        if (!$this->decks->contains($deck)) {
-            $this->decks[] = $deck;
-            $deck->addCard($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDeck(Deck $deck): self
-    {
-        if ($this->decks->contains($deck)) {
-            $this->decks->removeElement($deck);
-            $deck->removeCard($this);
-        }
-
-        return $this;
-    }
 }
